@@ -1,0 +1,73 @@
+String to Integer
+Send Feedback
+Write a recursive function to convert a given string into the number it represents. That is input will be a numeric string that contains only numbers, you need to convert the string into corresponding integer and return the answer.
+Input format :
+Numeric string S (string, Eg. "1234")
+Output format :
+Corresponding integer N (int, Eg. 1234)
+Constraints :
+0 < |S| <= 9
+where |S| represents length of string S.
+Sample Input 1 :
+00001231
+Sample Output 1 :
+1231
+Sample Input 2 :
+12567
+Sample Output 2 :
+12567
+------------------
+
+
+public class solution {
+
+	public static int convertStringToInt(String input){
+		// Write your code here
+
+        
+        // String s=helper("",input);
+        // if(s.equals(""))
+        //     return 0;
+        // int i= Integer.valueOf(s);
+        // return i;
+        
+        // return helper2(0,input);
+        return StringTOInt(input,0);
+	}
+    
+    private static int StringTOInt(String s,int n){
+        
+        if(s.isEmpty())
+            return n;
+        
+        char ch = s.charAt(0);
+        int i1=ch-'0';
+        n=n*10+i1;
+        return StringTOInt(s.substring(1),n);
+    }
+    
+    private static int helper2(int n,String up){
+        
+        if(up.length()==0)
+            return n;
+        
+        int i = up.charAt(0)-'0';
+        int n1 = n*10+i;
+        return helper2(n1,up.substring(1));
+        
+    }
+    
+    private static String helper(String p,String up){
+        
+        if(up.equals(""))
+            return p;
+        
+        char ch = up.charAt(0);
+        if(ch=='0'){
+            if(p.equals(""))
+                return helper(p,up.substring(1));
+        }
+        
+        return helper(p+ch,up.substring(1));
+    }
+}
