@@ -1,0 +1,59 @@
+Print Keypad Combinations Code
+Send Feedback
+Given an integer n, using phone keypad find out and print all the possible strings that can be made using digits of input n.
+Note : The order of strings are not important. Just print different strings in new lines.
+Input Format :
+Integer n
+Output Format :
+All possible strings in different lines
+Constraints :
+1 <= n <= 10^6
+Sample Input:
+23
+Sample Output:
+ad
+ae
+af
+bd
+be
+bf
+cd
+ce
+cf
+---------------
+public class solution {
+
+	public static void printKeypad(int input){
+		// Write your code here
+		helper("",input);
+	}
+    
+    private static void helper(String p, int up){
+        
+        if(up==0)
+            System.out.println(p);
+        
+        String s=findMapping(up%10);
+        for(int i=0;i<s.length();i++){
+            
+            helper(s.charAt(i)+p,up/10);
+        }
+    }
+    
+    private static String findMapping(int n){
+        
+        String s="";
+        switch(n){
+            case 2: s="abc";break;
+            case 3: s="def";break;
+            case 4: s="ghi";break;
+            case 5: s="jkl";break;
+            case 6: s="mno";break;
+            case 7: s="pqrs";break;
+            case 8: s="tuv";break;
+            case 9: s="wxyz";break;
+        }
+        
+        return s;
+    }
+}
