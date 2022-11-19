@@ -1,0 +1,82 @@
+Merge Sort Code
+Send Feedback
+Sort an array A using Merge Sort.
+Change in the input array itself. So no need to return or print anything.
+Input format :
+Line 1 : Integer n i.e. Array size
+Line 2 : Array elements (separated by space)
+Output format :
+Array elements in increasing order (separated by space)
+Constraints :
+1 <= n <= 10^3
+Sample Input 1 :
+6 
+2 6 8 5 4 3
+Sample Output 1 :
+2 3 4 5 6 8
+Sample Input 2 :
+5
+2 1 5 2 3
+Sample Output 2 :
+1 2 2 3 5 
+--------------
+public class solution {
+
+	public static void mergeSort(int[] input){
+		// Write your code here
+		helper(0,input.length-1,input);
+	}
+    
+    private static void helper(int i,int j,int [] arr){
+        
+        if(i==j)
+            return;
+        
+        int mid = i+(j-i)/2;
+        helper(i,mid,arr);
+        helper(mid+1,j,arr);
+        // System.out.println("i= "+i+" ,mid= "+mid+" ,j= "+j);
+        merge(i,mid,j,arr);
+    }
+
+    private static void merge(int i,int mid,int j,int [] arr){
+        
+        int [] arr1 = new int[j-i+1];
+        int s1=i;
+        int s2=mid+1;
+        int index=0;
+        while(s1<=mid && s2<=j){
+            if(arr[s1]<arr[s2]){
+                arr1[index]=arr[s1];
+                s1++;
+            }
+            else{
+                arr1[index]=arr[s2];
+                s2++;
+            }
+            index++;
+        }
+        
+        while(s1<=mid){
+            arr1[index]=arr[s1];
+            index++;
+            s1++;
+        }
+        
+        while(s2<=j){
+            arr1[index]=arr[s2];
+            index++;
+            s2++;
+        }
+        // System.out.println("len of arr1: "+arr1.length);
+        // System.out.print("merge array: ");
+        int i1=0;
+        for(int x=i;x<=j;x++,i1++){
+            
+            arr[x]=arr1[i1];
+            // System.out.print(arr[x]+" ");
+        }
+        // System.out.println();
+    }
+}
+
