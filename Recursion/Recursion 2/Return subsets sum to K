@@ -1,0 +1,63 @@
+Return subsets sum to K
+Send Feedback
+Given an array A of size n and an integer K, return all subsets of A which sum to K.
+Subsets are of length varying from 0 to n, that contain elements of the array. But the order of elements should remain same as in the input array.
+
+
+Note : The order of subsets are not important.
+
+
+Input format :
+Line 1 : Integer n, Size of input array
+Line 2 : Array elements separated by space
+Line 3 : K 
+Constraints :
+1 <= n <= 20
+Sample Input :
+9 
+5 12 3 17 1 18 15 3 17 
+6
+Sample Output :
+3 3
+5 1
+--------------------
+import java.util.ArrayList;
+import java.util.Arrays;
+public class solution {
+
+	// Return a 2D array that contains all the subsets which sum to k
+	public static int[][] subsetsSumK(int input[], int k) {
+		// Write your code here
+
+        ArrayList<int[]> l1 = helper("",input,k,0);
+        int [][] arr1=new int[l1.size()][];
+        
+        for (int i = 0; i < l1.size(); i++) {
+                arr1[i]=l1.get(i);
+        }
+        return arr1;
+	}
+    
+    private static ArrayList<int[]> helper(String p,int[] arr,int sum,int si){
+        
+        if(sum==0){
+            ArrayList<int[]> l1 = new ArrayList<>();
+            String [] s2 = p.split(" ");
+            int [] i1=new int[s2.length];
+            for (int i = 0; i < s2.length; i++) {
+            	i1[i]=Integer.parseInt(s2[i]);
+        	}
+            l1.add(i1);
+            return l1;
+        }
+        
+        ArrayList<int[]> ans=new ArrayList<>();
+        for(int i=si;i<arr.length;i++){
+            if(arr[i]<=sum){
+                ArrayList<int[]> l2=helper(p+arr[i]+" ",arr,sum-arr[i],i+1);
+                ans.addAll(l2);
+            }
+        }
+        return ans;
+    }
+}
