@@ -1,0 +1,124 @@
+Return all codes - String
+Send Feedback
+Assume that the value of a = 1, b = 2, c = 3, ... , z = 26. You are given a numeric string S. Write a program to return the list of all possible codes that can be generated from the given string.
+Note : The order of codes are not important. And input string does not contain 0s.
+Input format :
+A numeric string
+Constraints :
+1 <= Length of String S <= 10
+Sample Input:
+1123
+Sample Output:
+aabc
+kbc
+alc
+aaw
+kw
+-----------------------------------
+import java.util.*;
+public class solution {
+
+	// Return a string array that contains all possible codes
+	public static  String[] getCode(String input){
+		// Write your code here
+		
+        
+        // return helper("",input);
+        // int i1=Integer.parseInt(input);
+        // ArrayList<String> ans=getCodes(i1,"");
+        ArrayList<String> ans=getCD(input,"");
+        String [] s1=new String[ans.size()];
+        for (int i = 0; i < ans.size(); i++) {
+            s1[i]=ans.get(i);
+        }
+        return s1;
+	}
+    
+    public static ArrayList<String> getCD(String n,String p){
+
+        if(n.isEmpty()){
+            ArrayList<String> l1 = new ArrayList<>();
+            l1.add(p);
+            return l1;
+        }
+
+        int i1=n.charAt(0)-'0';
+        char c1=(char) ('a'+(i1-1));
+        String new_n=n.substring(1);
+        ArrayList<String> ans1=getCD(new_n,p+c1);
+        if(!new_n.isEmpty()){
+            int i2=new_n.charAt(0)-'0';
+            i2=i1*10+i2;
+            if(i2<=26) {
+                c1 = (char) ('a' + (i2 - 1));
+                ArrayList<String> ans2 = getCD(new_n.substring(1), p + c1);
+                ans1.addAll(ans2);
+            }
+        }
+        return ans1;
+    }
+    
+    public static ArrayList<String> getCodes(int n,String p){
+
+        if(n==0){
+            ArrayList<String> ans1=new ArrayList<>();
+            ans1.add(p);
+            return ans1;
+        }
+
+        if(n>0 && n<10){
+            char ch = (char) ('a'+(n-1));
+            p=ch+p;
+            ArrayList<String> ans1=new ArrayList<>();
+            ans1.add(p);
+            return ans1;
+        }
+
+        int r=n%10;
+        char c1=(char) ('a'+(r-1));
+        ArrayList<String> l1=getCodes(n/10,c1+p);
+        r=n%100;
+        if(r<=26) {
+            char c2 = (char) ('a' + (r - 1));
+            ArrayList<String> l2 = getCodes(n/100, c2 + p);
+            l1.addAll(l2);
+        }
+        return l1;
+    }
+
+    private static String[] helper(String p, String up){
+        
+        if(up.isEmpty()){
+            
+            return new String[]{p};
+        }
+        
+        String [] ans ={};
+        char ch =(char) ('a'+up.charAt(0)-'1');
+        String [] sm1 = helper(p+ch,up.substring(1));
+        String s1="";
+        String []sm2={};
+        if(up.length()>=2){
+            s1=up.substring(0,2);
+            int n=Integer.parseInt(s1);
+        	if(n<=26){
+            ch = (char) (96+n);
+            sm2 = helper(p+ch,up.substring(2));
+        }
+    }
+        ans = new String[sm1.length+sm2.length];
+        int k=0;
+        
+        while(k<sm1.length){
+            ans[k]=sm1[k];
+            k++;
+        }
+        
+        for(int z=0;z<sm2.length;z++){
+            ans[k]=sm2[z];
+            k++;
+        }
+        
+        return ans;
+    }
+}
