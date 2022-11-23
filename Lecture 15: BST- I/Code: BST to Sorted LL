@@ -1,0 +1,76 @@
+Code: BST to Sorted LL
+Send Feedback
+Given a BST, convert it into a sorted linked list. You have to return the head of LL.
+Input format:
+The first and only line of input contains data of the nodes of the tree in level order form. The data of the nodes of the tree is separated by space. If any node does not have left or right child, take -1 in its place. Since -1 is used as an indication whether the left or right nodes exist, therefore, it will not be a part of the data of any node.   
+Output Format:
+The first and only line of output prints the elements of sorted linked list.
+Constraints:
+Time Limit: 1 second
+Sample Input 1:
+8 5 10 2 6 -1 -1 -1 -1 -1 7 -1 -1
+Sample Output 1:
+2 5 6 7 8 10
+-------------------------
+
+class LinkedList<T>{
+        
+        LinkedListNode<T> head;
+        LinkedListNode<T> tail;
+    }
+
+
+public class Solution {
+
+	/*
+	 * Binary Tree Node class
+	 * 
+	 * class BinaryTreeNode<T> { T data; BinaryTreeNode<T> left; BinaryTreeNode<T>
+	 * right;
+	 * 
+	 * public BinaryTreeNode(T data) { this.data = data; } }
+	 */
+
+	/*
+	 * LinkedList Node Class
+	 *
+	 * 
+	 * class LinkedListNode<T> { T data; LinkedListNode<T> next;
+	 * 
+	 * public LinkedListNode(T data) { this.data = data; } }
+	 */
+    
+    
+	public static LinkedListNode<Integer> constructLinkedList(BinaryTreeNode<Integer> root) {
+        
+        LinkedList<Integer> ans=helper(root);
+        return (ans!=null)?ans.head:null;
+
+	}
+    
+    public static LinkedList<Integer> helper(BinaryTreeNode<Integer> root){
+        
+        if(root==null){
+            return null;
+        }
+        
+        LinkedList<Integer> l1=helper(root.left);
+        LinkedListNode<Integer> n1=new LinkedListNode<>(root.data);
+        LinkedList<Integer> ans=new LinkedList<>();
+        if(l1==null){
+            ans.head=n1;
+            ans.tail=n1;
+        }else{
+            l1.tail.next=n1;
+            ans.head=l1.head;
+            ans.tail=n1;
+        }
+        LinkedList<Integer> r1=helper(root.right);
+        if(r1!=null){
+            ans.tail.next=r1.head;
+            ans.tail=r1.tail;
+        }
+        
+        return ans;
+    }
+}
