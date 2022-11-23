@@ -1,0 +1,95 @@
+Construct Tree from Postorder and Inorder
+Send Feedback
+For a given postorder and inorder traversal of a Binary Tree of type integer stored in an array/list, create the binary tree using the given two arrays/lists. You just need to construct the tree and return the root.
+Note:
+Assume that the Binary Tree contains only unique elements. 
+Input Format:
+The first line of input contains an integer N denoting the size of the list/array. It can also be said that N is the total number of nodes the binary tree would have.
+
+The second line of input contains N integers, all separated by a single space. It represents the Postorder-traversal of the binary tree.
+
+The third line of input contains N integers, all separated by a single space. It represents the inorder-traversal of the binary tree.
+Output Format:
+The given input tree will be printed in a level order fashion where each level will be printed on a new line. 
+Elements on every level will be printed in a linear fashion. A single space will separate them.
+Constraints:
+1 <= N <= 10^4
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 sec
+Sample Input 1:
+7
+4 5 2 6 7 3 1 
+4 2 5 1 6 3 7 
+Sample Output 1:
+1 
+2 3 
+4 5 6 7 
+Sample Input 2:
+6
+2 9 3 6 10 5 
+2 6 3 9 5 10 
+Sample Output 2:
+5 
+6 10 
+2 3 
+9 
+---------------------------
+/*
+	
+	Following is the structure used to represent the Binary Tree Node
+
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+*/
+
+public class Solution {
+
+	public static BinaryTreeNode<Integer> buildTree(int[] postOrder, int[] inOrder) {
+		//Your code goes here
+        return treeFromPostIN(inOrder,postOrder,0,inOrder.length-1,0,postOrder.length-1);
+	}
+
+    public static BinaryTreeNode<Integer> treeFromPostIN(int [] in,int [] post,int inS,int inE,int postS,int postE){
+
+        if(inS>inE)
+            return null;
+        if(inS==inE){
+            BinaryTreeNode<Integer> ans = new BinaryTreeNode<>(in[inS]);
+            return ans;
+        }
+
+        int rootData = post[postE];
+        BinaryTreeNode<Integer> root = new BinaryTreeNode<>(rootData);
+        int index=0;
+        for (int i = inS; i <= inE; i++) {
+            if(in[i]==rootData){
+                index=i;
+                break;
+            }
+        }
+
+        int leftInS=inS;
+        int leftInE=index-1;
+        int rightInS=index+1;
+        int rightInE=inE;
+        int leftPostS=postS;
+        int leftPostE=postS+leftInE-leftInS;
+        int rightPostS=leftPostE+1;
+        int rightPostE=postE-1;
+
+        root.left=treeFromPostIN(in,post,leftInS,leftInE,leftPostS,leftPostE);
+        root.right=treeFromPostIN(in,post,rightInS,rightInE,rightPostS,rightPostE);
+        return root;
+    }
+}
