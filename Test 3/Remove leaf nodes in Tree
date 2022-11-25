@@ -1,0 +1,71 @@
+Remove leaf nodes in Tree
+Send Feedback
+Remove all leaf nodes from a given generic Tree. Leaf nodes are those nodes, which don't have any children.
+Note : Root will also be a leaf node if it doesn't have any child. You don't need to print the tree, just remove all leaf nodes and return the updated root.
+Input format :
+Line 1 : Elements in level order form separated by space (as per done in class). Order is - `
+
+Root_data, n (No_Of_Child_Of_Root), n children, and so on for every element `
+Output Format :
+Elements are printed level wise, each level in new line (separated by space)
+Sample Input 1 :
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1 : (Level wise, each level in new line)
+10
+20
+-------------------------------
+
+import java.util.*;
+public class Solution {
+
+	/*	TreeNode structure 
+	 * 
+	 * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+
+	public static TreeNode<Integer> removeLeafNodes(TreeNode<Integer> root) {
+		/* Your class should be named Solution
+		 * Don't write main().
+		 * Don't read input, it is passed as function argument.
+		 * Return output and don't print it.
+	 	 * Taking input and printing output is handled automatically.
+		*/
+        
+        return removeLeaf(root);
+		
+	}
+    
+    public static TreeNode<Integer> removeLeaf(TreeNode<Integer> root){
+
+        if(root==null || root.children.size()==0)
+            return null;
+
+        for (int i = 0; i < root.children.size(); i++) {
+            TreeNode<Integer> node=removeLeaf(root.children.get(i));
+            root.children.set(i,node);
+        }
+
+        int c=0;
+        for(TreeNode<Integer> n1:root.children){
+            if(n1!=null)
+                c++;
+        }
+
+        if(c!=root.children.size()){
+            ArrayList<TreeNode<Integer>> newChild=new ArrayList<>();
+            for (int i = 0; i < root.children.size(); i++) {
+                if(root.children.get(i)!=null)
+                    newChild.add(root.children.get(i));
+            }
+            root.children=newChild;
+        }
+        return root;
+    }
+}
