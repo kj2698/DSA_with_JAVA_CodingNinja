@@ -1,0 +1,107 @@
+Code : Max Priority Queue
+Send Feedback
+Implement the class for Max Priority Queue which includes following functions -
+1. getSize -
+Return the size of priority queue i.e. number of elements present in the priority queue.
+2. isEmpty -
+Check if priority queue is empty or not. Return true or false accordingly.
+3. insert -
+Given an element, insert that element in the priority queue at the correct position.
+4. getMax -
+Return the maximum element present in the priority queue without deleting. Return -Infinity if priority queue is empty.
+5. removeMax -
+Delete and return the maximum element present in the priority queue. Return -Infinity if priority queue is empty.
+Note : main function is given for your reference which we are using internally to test the class.
+----------------------------
+
+import java.util.*;
+public class PQ {
+	// Complete this class
+    
+    ArrayList<Integer> heap;
+
+    PQ(){
+        heap=new ArrayList<>();
+    }
+    
+	boolean isEmpty() {
+		// Implement the isEmpty() function here
+        return this.heap.size()==0;
+	}
+
+	int getSize() {
+		// Implement the getSize() function here
+        return this.heap.size();
+	}
+
+	int getMax() {
+		// Implement the getMax() function here
+        if(isEmpty()){
+            return Integer.MIN_VALUE;
+        }
+        return this.heap.get(0);
+	}
+
+	void insert(int element) {
+		// Implement the insert() function here
+        heap.add(element);
+        int ci=getSize()-1;
+        int pi=(ci-1)/2;
+        while (ci>0) {
+            if (heap.get(ci) > heap.get(pi)) {
+                int temp = heap.get(pi);
+                heap.set(pi, heap.get(ci));
+                heap.set(ci, temp);
+                ci = pi;
+                pi = (ci - 1) / 2;
+            } else
+                return;
+        }
+	}
+
+	int removeMax() {
+		// Implement the removeMax() function here
+        if(isEmpty()){
+            return Integer.MIN_VALUE;
+        }
+
+        int e1=heap.get(0);
+        heap.set(0,heap.get(getSize()-1));
+        heap.remove(getSize()-1);
+        // Down Heapify
+        int i=0;
+        int lc=1;
+        int rc=2;
+        while (i<=getSize()){
+            lc=2*i+1;
+            rc=2*i+2;
+            if(lc<getSize() && rc<getSize()){
+                int lv=heap.get(lc);
+                int rv=heap.get(rc);
+                if(lv>heap.get(i) && lv>=rv){
+                    heap.set(lc,heap.get(i));
+                    heap.set(i,lv);
+                    i=lc;
+                }else if(rv>heap.get(i) && rv>lv){
+                    heap.set(rc,heap.get(i));
+                    heap.set(i,rv);
+                    i=rc;
+                }else{
+                    break;
+                }
+            }else if(lc<getSize()){
+                if(heap.get(lc)>heap.get(i)){
+                    int t=heap.get(i);
+                    heap.set(i,heap.get(lc));
+                    heap.set(lc,t);
+                    i=lc;
+                }else {
+                    break;
+                }
+            }else {
+                break;
+            }
+        }
+        return e1;
+	}
+}
