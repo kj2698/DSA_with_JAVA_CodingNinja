@@ -1,0 +1,83 @@
+Replace with Sum of greater nodes
+Send Feedback
+Given a binary search tree, you have to replace each node's data with the sum of all nodes which are greater or equal than it. You need to include the current node's data also.
+That is, if in given BST there is a node with data 5, you need to replace it with sum of its data (i.e. 5) and all nodes whose data is greater than or equal to 5.
+Note: You don't need to return or print, just change the data of each node.
+Input format:
+The first line of input contains data of the nodes of the tree in level order form. The data of the nodes of the tree is separated by space. If any node does not have left or right child, take -1 in its place. Since -1 is used as an indication whether the left or right nodes exist, therefore, it will not be a part of the data of any node.
+Output format:
+In the output, data of the nodes of the tree are printed in level order form. Each level of the tree is printed on a separate line.
+Constraints:
+Time Limit: 1 second
+Sample Input 1 :
+8 5 10 2 6 -1 -1 -1 -1 -1 7 -1 -1
+Sample Output 1 :
+18 
+36 10 
+38 31 
+25 
+-----------------------------
+import java.util.*;
+public class Solution {
+
+	/*
+	 * Binary Tree Node class
+	 * 
+	 * class BinaryTreeNode<T> { T data; BinaryTreeNode<T> left; BinaryTreeNode<T>
+	 * right;
+	 * 
+	 * public BinaryTreeNode(T data) { this.data = data; } }
+	 */
+
+	public static void replaceWithLargerNodesSum(BinaryTreeNode<Integer> root) {
+		// Write your code here
+
+        // ArrayList<Integer> l1 = treeToArray(root);
+        // int sum=0;
+        // //System.out.println("Array Elements: "+l1);
+        // for (int i = l1.size()-1; i >-1 ; i--) {
+        //     l1.set(i,l1.get(i)+sum);
+        //     sum=l1.get(i);
+        // }
+        // //System.out.println("Sum of Elements:"+l1);
+        // nodeIntoIndex(root,0,l1);
+        
+        rightSum(root,0);
+	}
+    
+    public static int rightSum(BinaryTreeNode<Integer> root,int sum){
+        
+        if(root==null)
+            return 0;
+        
+        int rootd=root.data;
+        int r1=rightSum(root.right,sum);
+        root.data=root.data+r1+sum;
+        int l1=rightSum(root.left,root.data);
+        return rootd+l1+r1;
+    }
+    
+    public static ArrayList<Integer> treeToArray(BinaryTreeNode<Integer> root){
+
+        if(root==null)
+            return new ArrayList<>();
+
+        ArrayList<Integer> l1=treeToArray(root.left);
+        ArrayList<Integer> ans=new ArrayList<>();
+        ans.addAll(l1);
+        ans.add(root.data);
+        ArrayList<Integer> r1=treeToArray(root.right);
+        ans.addAll(r1);
+        return ans;
+    }
+    
+    public static int nodeIntoIndex(BinaryTreeNode<Integer> root,int i,ArrayList<Integer> sum){
+        if(root==null)
+            return i;
+
+        int index=nodeIntoIndex(root.left,i,sum);
+        root.data=sum.get(index);
+        index= nodeIntoIndex(root.right,index+1,sum);
+        return index;
+    }
+}
