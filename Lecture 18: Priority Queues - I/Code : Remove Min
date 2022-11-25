@@ -1,0 +1,103 @@
+Code : Remove Min
+Send Feedback
+Implement the function RemoveMin for the min priority queue class.
+For a minimum priority queue, write the function for removing the minimum element present. Remove and return the minimum element.
+Note : main function is given for your reference which we are using internally to test the code.
+-----------------------
+
+import java.util.ArrayList;
+
+public class PQ {
+
+	private ArrayList<Integer> heap;
+
+	public PQ() {
+		heap = new ArrayList<Integer>();
+	}
+
+	boolean isEmpty() {
+		return heap.size() == 0;
+	}
+
+	int size() {
+		return heap.size();
+	}
+
+	int getMin() throws PriorityQueueException {
+		if (isEmpty()) {
+			// Throw an exception
+			throw new PriorityQueueException();
+		}
+		return heap.get(0);
+	}
+
+	void insert(int element) {
+		heap.add(element);
+		int childIndex = heap.size() - 1;
+		int parentIndex = (childIndex - 1) / 2;
+
+		while (childIndex > 0) {
+			if (heap.get(childIndex) < heap.get(parentIndex)) {
+				int temp = heap.get(childIndex);
+				heap.set(childIndex, heap.get(parentIndex));
+				heap.set(parentIndex, temp);
+				childIndex = parentIndex;
+				parentIndex = (childIndex - 1) / 2;
+			} else {
+				return;
+			}
+		}
+	}
+
+	int removeMin() throws PriorityQueueException{
+		// Complete this function
+		// Throw the exception PriorityQueueException if queue is empty
+        if (isEmpty()) {
+			// Throw an exception
+			throw new PriorityQueueException();
+		}
+        
+        int e1=heap.get(0);
+        heap.set(0,heap.get(size()-1));
+        heap.remove(size()-1);
+        // Down Heapify
+        int i=0;
+        int lc=1;
+        int rc=2;
+        while (i<=size()){
+            lc=2*i+1;
+            rc=2*i+2;
+            if(lc<size() && rc<size()){
+                int lv=heap.get(lc);
+                int rv=heap.get(rc);
+                if(lv<heap.get(i) && lv<=rv){
+                    heap.set(lc,heap.get(i));
+                    heap.set(i,lv);
+                    i=lc;
+                }else if(rv<heap.get(i) && rv<lv){
+                    heap.set(rc,heap.get(i));
+                    heap.set(i,rv);
+                    i=rc;
+                }else{
+                    break;
+                }
+            }else if(lc<size()){
+                if(heap.get(lc)<heap.get(i)){
+                    int t=heap.get(i);
+                    heap.set(i,heap.get(lc));
+                    heap.set(lc,t);
+                    i=lc;
+                }else {
+                    break;
+                }
+            }else {
+                break;
+            }
+        }
+        return e1;
+	}
+}
+
+class PriorityQueueException extends Exception {
+
+}
