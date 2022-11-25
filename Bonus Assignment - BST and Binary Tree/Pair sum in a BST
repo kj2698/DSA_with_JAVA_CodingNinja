@@ -1,0 +1,121 @@
+Pair sum in a BST
+Send Feedback
+Given a binary search tree and an integer S, find pair of nodes in the BST which sum to S. You can use extra space of the order of O(log n).
+Note:
+1. Assume BST contains all unique elements.
+2. In a pair, print the smaller element first.
+Input Format :
+The first line of input contains data of the nodes of the tree in level order form. The data of the nodes of the tree is separated by space. If any node does not have left or right child, take -1 in its place. Since -1 is used as an indication whether the left or right nodes exist, therefore, it will not be a part of the data of any node.   
+The following line of input contains an integer, that denotes the value of S.
+Output format:
+You have to print each pair in a different line (pair elements separated by space). The order of different pairs, to be printed, does not matter.
+Constraints:
+Time Limit: 1 second   
+Sample Input 1:
+8 5 10 2 6 -1 -1 -1 -1 -1 7 -1 -1
+12
+Sample Output 1:
+2 10
+5 7
+--------------------
+import java.util.*;
+public class Solution {
+	/*
+	 * BinaryTreeNode class
+	 * 
+	 * class BinaryTreeNode<T> 
+	 * { 
+	 * 		T data; 
+	 * 		BinaryTreeNode<T> left; 
+	 * 		BinaryTreeNode<T> right;
+	 *		public BinaryTreeNode(T data) 
+	 *		{
+	 *  		this.data = data; 
+	 *  	} 
+	 *  }
+	 */
+	
+	public static void printNodesSumToS(BinaryTreeNode<Integer> root, int s) {
+		// Write your code here
+     
+        ArrayList<Integer> l1 = inorder(root);
+        //System.out.println(l1);
+        int i=0;
+        int j=l1.size()-1;
+        while(i<j){
+            if(l1.get(i)+l1.get(j)==s){
+                System.out.println(l1.get(i)+" "+l1.get(j));
+                i++;
+                j--;
+            }
+            else if(l1.get(i)+l1.get(j)>s)
+                j--;
+            else
+                i++;
+        }
+        
+        // Stack<BinaryTreeNode<Integer>> inorder=new Stack<>();
+        // Stack<BinaryTreeNode<Integer>> revinorder=new Stack<>();
+        // BinaryTreeNode<Integer> n1=root;
+        // while (n1!=null){
+        //     inorder.push(n1);
+        //     n1=n1.left;
+        // }
+        // n1=root;
+        // while (n1!=null){
+        //     revinorder.push(n1);
+        //     n1=n1.right;
+        // }
+
+        // while (!inorder.isEmpty() && !revinorder.isEmpty()){
+        //     BinaryTreeNode<Integer> top1=inorder.peek();
+        //     BinaryTreeNode<Integer> top2=revinorder.peek();
+        //     if(top1.data==top2.data)
+        //         break;
+        //     if(top1.data+top2.data==s){
+        //         System.out.println(top1.data+" "+top2.data);
+        //         BinaryTreeNode<Integer> pop1=inorder.pop();
+        //         pop1=pop1.right;
+        //         while (pop1!=null){
+        //             inorder.push(pop1);
+        //             pop1=pop1.left;
+        //         }
+                
+        //         if(inorder.peek().data==revinorder.peek().data)
+        //             break;
+        //         BinaryTreeNode<Integer> pop2=revinorder.pop();
+        //         pop2=pop2.left;
+        //         while (pop2!=null){
+        //             revinorder.push(pop2);
+        //             pop2=pop2.right;
+        //         }
+        //     }else if(top1.data+ top2.data<s){
+        //         BinaryTreeNode<Integer> pop1=inorder.pop();
+        //         pop1=pop1.right;
+        //         while (pop1!=null){
+        //             inorder.push(pop1);
+        //             pop1=pop1.left;
+        //         }
+        //     }else{
+        //         BinaryTreeNode<Integer> pop2=revinorder.pop();
+        //         pop2=pop2.left;
+        //         while (pop2!=null){
+        //             revinorder.push(pop2);
+        //             pop2=pop2.right;
+        //         }
+        //     }
+        // }
+	}
+
+    public static ArrayList<Integer> inorder(BinaryTreeNode<Integer> root){
+        
+        if(root==null)
+            return new ArrayList<>();
+        
+        ArrayList<Integer> l1 = inorder(root.left);
+        l1.add(root.data);
+        ArrayList<Integer> r1=inorder(root.right);
+        l1.addAll(r1);
+        return l1;
+    }
+}
