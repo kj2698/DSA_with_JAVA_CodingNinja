@@ -1,0 +1,78 @@
+Largest BST
+Send Feedback
+Given a Binary tree, find the largest BST subtree. That is, you need to find the BST with maximum height in the given binary tree. You have to return the height of largest BST.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The data of the nodes of the tree is separated by space. If any node does not have left or right child, take -1 in its place. Since -1 is used as an indication whether the left or right nodes exist, therefore, it will not be a part of the data of any node.
+Output format:
+The first and only line of output contains the height of the largest BST.
+Constraints:
+Time Limit: 1 second
+Sample Input 1:
+5 10 6 2 3 -1 -1 -1 -1 -1 9 -1 -1
+Sample Output 1:
+2
+-------------------------------
+class maxBST{
+    boolean isBST;
+    int lmax;
+    int rmin;
+    int maxHeightBST;
+    int h;
+}
+
+public class Solution {
+	/*
+	 * BinaryTreeNode class
+	 * 
+	 * class BinaryTreeNode<T> 
+	 * { 
+	 * 		T data; 
+	 * 		BinaryTreeNode<T> left; 
+	 * 		BinaryTreeNode<T> right;
+	 *		public BinaryTreeNode(T data) 
+	 *		{
+	 *  		this.data = data; 
+	 *  	} 
+	 *  }
+	 */
+	
+	public static int largestBSTSubtree(BinaryTreeNode<Integer> root) {
+		// Write your code here
+        
+        return maxHeightBST(root).maxHeightBST;
+	}
+
+    public static maxBST maxHeightBST(BinaryTreeNode<Integer> root){
+
+        if(root==null){
+            maxBST o1 = new maxBST();
+            o1.isBST=true;
+            o1.lmax=Integer.MIN_VALUE;
+            o1.rmin=Integer.MAX_VALUE;
+            o1.maxHeightBST=0;
+            o1.h=0;
+            return o1;
+        }
+
+        maxBST l1=maxHeightBST(root.left);
+        maxBST r1=maxHeightBST(root.right);
+        maxBST ans=new maxBST();
+        if(root.data>l1.lmax && root.data<=r1.rmin && l1.isBST && r1.isBST){
+            ans.isBST=true;
+            ans.lmax=Math.max(root.data,Math.max(l1.lmax,r1.lmax));
+            ans.rmin=Math.min(root.data,Math.min(l1.rmin,r1.rmin));
+            ans.h=Math.max(l1.h,r1.h)+1;
+            int maxh=Math.max(l1.maxHeightBST,r1.maxHeightBST);
+            if(ans.h>maxh)
+                ans.maxHeightBST= ans.h;
+        }else {
+            ans.isBST=false;
+            ans.lmax=Math.max(root.data,Math.max(l1.lmax,r1.lmax));
+            ans.rmin=Math.min(root.data,Math.min(l1.rmin,r1.rmin));
+            ans.h=0;
+            ans.maxHeightBST=Math.max(l1.maxHeightBST,r1.maxHeightBST);
+        }
+        return ans;
+    }
+
+}
