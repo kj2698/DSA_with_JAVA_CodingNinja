@@ -1,0 +1,80 @@
+Subset Sum
+Send Feedback
+You are given a set of N integers. You have to return true if there exists a subset that sum up to K, otherwise return false.
+Input Format
+The first line of the test case contains an integer 'N' representing the total elements in the set.
+
+The second line of the input contains N integers separated by a single space.    
+
+The third line of the input contains a single integer, denoting the value of K.
+Output Format
+Output Yes if there exists a subset whose sum is k, else output No.
+Constraints :
+1 <= N <= 10^3
+1 <= a[i] <= 10^3, where a[i] denotes an element of the set 
+1 <= K <= 10^3
+
+Time Limit: 1 sec
+Sample Input 1 :
+4
+4 3 5 2
+13
+Sample Output 1 :
+No
+Sample Input 2 :
+5
+4 2 5 6 7
+14
+Sample Output 2 :
+Yes
+----------------------------------
+
+public class Solution{
+    static boolean isSubsetPresent(int[] arr, int n, int sum) {
+
+        /* Your class should be named Solution
+		 * Don't write main().
+		 * Don't read input, it is passed as function argument.
+		 * Return output and don't print it.
+	 	 * Taking input and printing output is handled automatically.
+        */
+
+//         int [][] s=new int [arr.length+1][sum+1];
+//         for(int i=0;i<s.length;i++){
+//             for(int j=0;j<s[0].length;j++)
+//                 s[i][j]=-1;
+//         }
+        
+//         return helper1(arr,0,sum,s);
+        return helper1(arr,0,sum);
+    }
+    
+    private static boolean helper1(int [] arr,int n,int sum,int [][] s){
+        if(sum==0)
+            return true;
+        if(n>=arr.length || sum<0)
+            return false;
+        if(s[n][sum]!=-1){
+            return s[n][sum]==1;
+        }
+        
+        boolean v= helper1(arr,n+1,sum-arr[n],s) || helper1(arr,n+1,sum,s);
+        if(v)
+            s[n][sum]=1;
+        else
+            s[n][sum]=0;
+        
+        return v;
+    }
+    
+    private static boolean helper1(int [] arr,int n,int sum){
+        if(sum==0)
+            return true;
+        if(n>=arr.length || sum<0)
+            return false;
+    
+        
+        return helper1(arr,n+1,sum-arr[n]) || helper1(arr,n+1,sum);
+        
+    }
+}
