@@ -1,0 +1,90 @@
+Code : Dijkstra's Algorithm
+Send Feedback
+Given an undirected, connected and weighted graph G(V, E) with V number of vertices (which are numbered from 0 to V-1) and E number of edges.
+Find and print the shortest distance from the source vertex (i.e. Vertex 0) to all other vertices (including source vertex also) using Dijkstra's Algorithm.
+Input Format :
+Line 1: Two Integers V and E (separated by space)
+Next E lines : Three integers ei, ej and wi, denoting that there exists an edge between vertex ei and vertex ej with weight wi (separated by space)
+Output Format :
+For each vertex, print its vertex number and its distance from source, in a separate line. The vertex number and its distance needs to be separated by a single space.
+Note : Order of vertices in output doesn't matter.
+Constraints :
+2 <= V, E <= 10^5
+Time Limit: 1 sec
+Sample Input 1 :
+4 4
+0 1 3
+0 3 5
+1 2 1
+2 3 8
+Sample Output 1 :
+0 0
+1 3
+2 4
+3 5
+-----------------------
+
+import java.util.Scanner;
+
+public class Solution {
+
+	public static void main(String[] args) {
+		
+        int v;
+        int e;
+        Scanner sc= new Scanner(System.in);
+        v=sc.nextInt();
+        e=sc.nextInt();
+        int [][] m=new int[v][v];
+        for (int i = 0; i < e; i++) {
+            int v1=sc.nextInt();
+            int v2=sc.nextInt();
+            int v3=sc.nextInt();
+            m[v1][v2]=v3;
+            m[v2][v1]=v3;
+        }
+
+        minDist(m);
+	}
+    
+    private static int findMinIndex(int [] distance,boolean [] visited){
+
+        int min_i=-1;
+        int min_w=Integer.MAX_VALUE;
+        for (int i = 0; i < distance.length; i++) {
+            if(distance[i]<min_w && !visited[i]){
+                min_i=i;
+                min_w=distance[i];
+            }
+        }
+
+        return min_i;
+    }
+
+    public static void minDist(int [][] m){
+
+        boolean [] visited = new boolean[m.length];
+        int distance[] = new int[m.length];
+        distance[0]=0;
+        for (int i = 1; i < distance.length; i++) {
+            distance[i]=Integer.MAX_VALUE;
+        }
+
+        for (int i = 0; i < visited.length; i++) {
+            int min_index=findMinIndex(distance,visited);
+            visited[min_index]=true;
+            for (int j = 0; j < m.length; j++) {
+                if(m[min_index][j]!=0 && !visited[j]){
+                    int wt=distance[min_index]+m[min_index][j];
+                    if(wt<distance[j])
+                        distance[j]=wt;
+                }
+            }
+        }
+
+        for (int i = 0; i < distance.length; i++) {
+            System.out.println(i+" "+ distance[i]);
+        }
+    }
+
+}
