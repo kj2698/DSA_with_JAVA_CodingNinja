@@ -1,0 +1,73 @@
+Code: N Queens
+Send Feedback
+You are given N, and for a given N x N chessboard, find a way to place N queens such that no queen can attack any other queen on the chess board. A queen can be killed when it lies in the same row, or same column, or the same diagonal of any of the other queens. You have to print all such configurations.
+Input Format :
+Line 1 : Integer N
+Output Format :
+One Line for every board configuration. 
+Every line will have N*N board elements printed row wise and are separated by space
+Note : Don't print anything if there isn't any valid configuration.
+Constraints :
+1<=N<=10
+Sample Input 1:
+4
+Sample Output 1 :
+0 1 0 0 0 0 0 1 1 0 0 0 0 0 1 0 
+0 0 1 0 1 0 0 0 0 0 0 1 0 1 0 0 
+--------------------------------
+
+
+public class Solution {
+	
+		
+public static void placeNQueens(int n){
+		
+	/* Your class should be named Solution.
+	 * Don't write main() function.
+	 * Don't read input, it is passed as function argument.
+	 * Print output as specified in the question
+	 */
+
+    	int board[][] = new int[n][n];
+        placeQueen(board,0);
+
+	}
+	
+    public static boolean isSafe(int [][] board,int r,int c){
+        int [] x_dir={-1,-1,-1};
+        int [] y_dir={-1,0,1};
+        for (int i = 0; i < x_dir.length; i++) {
+            int x=r+x_dir[i];
+            int y=c+y_dir[i];
+            while (x>=0 && y>=0 && y<board.length){
+                if(board[x][y]==1)
+                    return false;
+                x+=x_dir[i];
+                y+=y_dir[i];
+            }
+        }
+
+        return true;
+    }
+
+    public static void placeQueen(int [][] board,int r){
+        if(r==board.length){
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board.length; j++) {
+                    System.out.print(board[i][j]+" ");
+                }
+            }
+            System.out.println();
+            return;
+        }
+
+        //checking each column if it's safe or not
+        for (int i = 0; i < board.length; i++) {
+            if(isSafe(board,r,i)) {
+                board[r][i]=1;
+                placeQueen(board, r + 1);
+                board[r][i]=0;
+            }
+        }
+    }
+}
