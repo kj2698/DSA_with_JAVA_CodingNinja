@@ -1,0 +1,93 @@
+LCS
+Send Feedback
+Given two strings, 'S' and 'T' with lengths 'M' and 'N', find the length of the 'Longest Common Subsequence'.
+For a string 'str'(per se) of length K, the subsequences are the strings containing characters in the same relative order as they are present in 'str,' but not necessarily contiguous. Subsequences contain all the strings of length varying from 0 to K.
+Example :
+Subsequences of string "abc" are:  ""(empty string), a, b, c, ab, bc, ac, abc.
+Input format :
+The first line of input contains the string 'S' of length 'M'.
+
+The second line of the input contains the string 'T' of length 'N'.
+Output format :
+Return the length of the Longest Common Subsequence.
+Constraints :
+0 <= M <= 10 ^ 3
+0 <= N <= 10 ^ 3
+
+Time Limit: 1 sec
+Sample Input 1 :
+adebc
+dcadb
+Sample Output 1 :
+3
+Explanation of the Sample Output 1 :
+Both the strings contain a common subsequence 'adb', which is the longest common subsequence with length 3. 
+Sample Input 2 :
+ab
+defg
+Sample Output 2 :
+0
+Explanation of the Sample Output 2 :
+The only subsequence that is common to both the given strings is an empty string("") of length 0.
+-----------------------------------
+
+
+public class Solution {
+
+	public static int lcs(String s, String t) {
+		//Your code goes here
+        
+//         int [][] storage=new int[s.length()+1][t.length()+1];
+//         for (int i = 0; i < storage.length; i++) {
+//             for (int j = 0; j < storage[0].length; j++) {
+//                 storage[i][j]=-1;
+//             }
+//         }
+        
+//         return lcsM(s,t,storage);
+        
+        int m=s.length();
+        int n=t.length();
+        int [][] storage=new int[m+1][n+1];
+        for (int i = 0; i <= n; i++) {
+            storage[0][i]=0;
+        }
+
+        for (int i = 0; i <=m ; i++) {
+            storage[i][0]=0;
+        }
+
+        for (int i = 1; i <=m ; i++) {
+            for (int j = 1; j <=n ; j++) {
+                if(s.charAt(m-i)==t.charAt(n-j)){
+                    storage[i][j]=1+storage[i-1][j-1];
+                }else {
+                    storage[i][j]=Math.max(storage[i-1][j],storage[i][j-1]);
+                }
+            }
+        }
+        return storage[m][n];
+    }
+
+    
+    public static int lcsM(String s,String t,int [][] storage){
+
+        if(s.isEmpty() || t.isEmpty()){
+            storage[s.length()][t.length()]=0;
+            return 0;
+        }
+
+        if(storage[s.length()][t.length()]!=-1){
+            return storage[s.length()][t.length()];
+        }
+
+        if(s.charAt(0)==t.charAt(0)) {
+            storage[s.length()][t.length()]= 1 + lcsM(s.substring(1), t.substring(1),storage);
+            return storage[s.length()][t.length()];
+        }
+
+        storage[s.length()][t.length()]= Math.max(lcsM(s,t.substring(1),storage),lcsM(s.substring(1),t,storage));
+        return storage[s.length()][t.length()];
+    }
+
+}
