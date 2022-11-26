@@ -1,0 +1,67 @@
+Largest Piece
+Send Feedback
+It's Gary's birthday today and he has ordered his favourite square cake consisting of '0's and '1's . But Gary wants the biggest piece of '1's and no '0's . A piece of cake is defined as a part which consist of only '1's, and all '1's share an edge with each other on the cake. Given the size of cake N and the cake, can you find the count of '1's in the biggest piece of '1's for Gary ?
+Input Format :
+The first line of input contains an integer, that denotes the value of N. 
+Each of the following N lines contain N space separated integers.
+Output Format :
+Print the count of '1's in the biggest piece of '1's, according to the description in the task.
+Constraints :
+1 <= N <= 1000
+Time Limit: 1 sec
+Sample Input 1:
+2
+1 1
+0 1
+Sample Output 1:
+3
+-------------------------------
+
+public class Solution {
+
+    static int[][] dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+
+	public static int dfs(String[] edge, int n1) {
+		/* Your class should be named Solution
+		 * Don't write main().
+		 * Don't read input, it is passed as function argument.
+		 * Return output and don't print it.
+	 	 * Taking input and printing output is handled automatically.
+        */
+        
+        int m=edge.length;
+        int n=edge[0].length();
+        boolean visited[][] = new boolean[m][n];
+        int c=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(edge[i].charAt(j)=='1' && !visited[i][j]){
+                    //calling the func
+                    int c1=countLargestPeice(edge,i,j,visited);
+                    if(c1>c)
+                        c=c1;
+                }
+            }
+        }
+        
+        return c;
+	}
+
+    private static int countLargestPeice(String [] edge,int r,int c,boolean [][] visited){
+        
+        if(r<0 || r>=edge.length || c<0 || c>=edge[0].length())
+            return 0;
+        
+        int count=0;
+        if(edge[r].charAt(c)=='1' && !visited[r][c]){
+            visited[r][c]=true;
+            count++;
+            for(int i=0;i<dir.length;i++){
+                count += countLargestPeice(edge,r+dir[i][0],c+dir[i][1],visited);
+            }
+        }
+        
+        return count;
+    }
+
+}
