@@ -44,30 +44,43 @@ public class Solution {
 
 		// Write your code here
         
-        if(root1.data!=root2.data || root1.children.size()!=root2.children.size())
-            return false;
-        Queue<TreeNode<Integer>> q1=new LinkedList<>();
-        Queue<TreeNode<Integer>> q2=new LinkedList<>();
-        q1.add(root1);
-        q2.add(root2);
-        while(!q1.isEmpty() && !q2.isEmpty()){
+        // if(root1.data!=root2.data || root1.children.size()!=root2.children.size())
+        //     return false;
+        // Queue<TreeNode<Integer>> q1=new LinkedList<>();
+        // Queue<TreeNode<Integer>> q2=new LinkedList<>();
+        // q1.add(root1);
+        // q2.add(root2);
+        // while(!q1.isEmpty() && !q2.isEmpty()){
             
-            TreeNode<Integer> n1=q1.poll();
-            TreeNode<Integer> n2=q2.poll();
-            if(n1.data!=n2.data)
-                return false;
-            int s1=n1.children.size();
-            int s2=n2.children.size();
-            if(s1==s2){
-                for(int i=0;i<s1;i++){
-                    q1.add(n1.children.get(i));
-                    q2.add(n2.children.get(i));
-                }
-            }else
-                return false;
-        }
+        //     TreeNode<Integer> n1=q1.poll();
+        //     TreeNode<Integer> n2=q2.poll();
+        //     if(n1.data!=n2.data)
+        //         return false;
+        //     int s1=n1.children.size();
+        //     int s2=n2.children.size();
+        //     if(s1==s2){
+        //         for(int i=0;i<s1;i++){
+        //             q1.add(n1.children.get(i));
+        //             q2.add(n2.children.get(i));
+        //         }
+        //     }else
+        //         return false;
+        // }
         
-        return true;
+        // return true;
+
+        if(root1.data!=root2.data)
+            return false;
+
+        if(root1.children.size()!=root2.children.size())
+            return false;
+
+        boolean ans=true;
+        for(int i=0;i<root1.children.size();i++){
+            ans=ans && checkIdentical(root1.children.get(i),root2.children.get(i));
+        }
+
+        return ans;
 	}
 	
 }
