@@ -14,6 +14,7 @@ Sample Output 1 :
 -------------------------------
 
 
+
 class Pair{
     TreeNode<Integer> l=null;
     TreeNode<Integer> sl=null;
@@ -37,42 +38,75 @@ public class Solution {
 	
 	public static TreeNode<Integer> findSecondLargest(TreeNode<Integer> root){
 
-        if(root==null || root.children.size()==0)
-            return null;
+        // if(root==null || root.children.size()==0)
+        //     return null;
 
-        Pair p1 = new Pair();
-        TreeNode<Integer> r1=helper1(root,p1);
-        if(r1.data.equals(p1.l.data))
-            return p1.sl;
-        else if(p1.sl==null && r1.data<p1.l.data)
-            p1.sl=r1;
-        else if(r1.data>p1.l.data){
-            p1.sl=p1.l;
-            p1.l=r1;
-        }else if(r1.data>p1.sl.data){
-            p1.sl=r1;
-        }
-        return p1.sl;
+        // Pair p1 = new Pair();
+        // TreeNode<Integer> r1=helper1(root,p1);
+        // if(r1.data.equals(p1.l.data))
+        //     return p1.sl;
+        // else if(p1.sl==null && r1.data<p1.l.data)
+        //     p1.sl=r1;
+        // else if(r1.data>p1.l.data){
+        //     p1.sl=p1.l;
+        //     p1.l=r1;
+        // }else if(r1.data>p1.sl.data){
+        //     p1.sl=r1;
+        // }
+        // return p1.sl;
+
+        return helper1(root).sl;
         
 	}
 	
     
-    public static TreeNode<Integer> helper1(TreeNode<Integer> root, Pair p1){
+    // public static TreeNode<Integer> helper1(TreeNode<Integer> root, Pair p1){
 
-        for (int i = 0; i < root.children.size(); i++) {
+    //     for (int i = 0; i < root.children.size(); i++) {
 
-            TreeNode<Integer> ans1=helper1(root.children.get(i),p1);
-            if(p1.l==null)
-                p1.l=ans1;
-            else if(ans1.data<p1.l.data && (p1.sl==null || p1.sl.data<ans1.data))
-                p1.sl=ans1;
-            else if(ans1.data>p1.l.data){
-                p1.sl=p1.l;
-                p1.l=ans1;
+    //         TreeNode<Integer> ans1=helper1(root.children.get(i),p1);
+    //         if(p1.l==null)
+    //             p1.l=ans1;
+    //         else if(ans1.data<p1.l.data && (p1.sl==null || p1.sl.data<ans1.data))
+    //             p1.sl=ans1;
+    //         else if(ans1.data>p1.l.data){
+    //             p1.sl=p1.l;
+    //             p1.l=ans1;
+    //         }
+    //     }
+
+    //     return root;
+    // }
+
+    public static Pair helper1(TreeNode<Integer> root){
+
+        Pair p1 = new Pair();
+        p1.l=root;
+        p1.sl=null;
+
+        for(int i=0;i<root.children.size();i++){
+            Pair p2=helper1(root.children.get(i));
+            if(p1.l.data==p2.l.data){
+                if(p1.sl==null)
+                    p1.sl=p2.sl;
+                else if(p2.sl!=null)
+                    p1.sl=(p1.sl.data<p2.sl.data)?p2.sl:p1.sl;
+            }
+            else if(p1.l.data>p2.l.data){
+                if(p1.sl!=null){
+                    p1.sl=(p1.sl.data<p2.l.data)?p2.l:p1.sl;
+                }else
+                    p1.sl=p2.l;
+            }else{
+                TreeNode<Integer> temp=p1.l;
+                p1.l=p2.l;
+                if(p2.sl!=null){
+                    p1.sl=(p2.sl.data>temp.data)?p2.sl:temp;
+                }else
+                p1.sl=(temp.data<p1.l.data)?temp:p1.sl;
             }
         }
-
-        return root;
+        return p1;
     }
 	
 }
