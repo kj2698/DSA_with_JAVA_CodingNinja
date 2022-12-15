@@ -25,6 +25,18 @@ class cousin{
     BinaryTreeNode<Integer> parent;
 }
 
+class Pair{
+
+    int height;
+    BinaryTreeNode<Integer> parent;
+
+    Pair(int height,BinaryTreeNode<Integer> p){
+        this.height=height;
+        this.parent=p;
+    }
+}
+
+
 public class solution {
 
 	/*	Binary Tree Node class
@@ -43,50 +55,74 @@ public class solution {
 	public static boolean isCousin(BinaryTreeNode<Integer> root, int p, int q) {
 		// Write your code here
 
-        return isCousin(root,p,q,0).iscousin;
+        // return isCousin(root,p,q,0).iscousin;
+        Pair ans1=findh(root,p,1,null);
+        Pair ans2=findh(root,q,1,null);
+        if(ans1.height==ans2.height && ans1.parent!=ans2.parent)
+            return true;
+
+        return false;
 	}
     
-    public static cousin  isCousin(BinaryTreeNode<Integer> root,int p,int q,int level){
+    // public static cousin  isCousin(BinaryTreeNode<Integer> root,int p,int q,int level){
 
-        if(root==null){
-            cousin o1 = new cousin();
-            o1.iscousin=false;
-            o1.height=-1;
-            o1.parent=null;
-            return o1;
+    //     if(root==null){
+    //         cousin o1 = new cousin();
+    //         o1.iscousin=false;
+    //         o1.height=-1;
+    //         o1.parent=null;
+    //         return o1;
+    //     }
+
+    //     if(root.data==p || root.data==q){
+    //         cousin o1 = new cousin();
+    //         o1.iscousin=false;
+    //         o1.height=level;
+    //         o1.parent=null;
+    //         return o1;
+    //     }
+    //     cousin l1 = isCousin(root.left,p,q,level+1);
+    //     cousin r1 = isCousin(root.right,p,q,level+1);
+    //     cousin ans = new cousin();
+    //     if(l1.height!=-1 && r1.height!=-1){
+    //         if(l1.height==r1.height && l1.parent!=r1.parent){
+    //             ans.iscousin=true;
+    //             ans.height=l1.height+1;
+    //             ans.parent=l1.parent;
+    //         }
+    //     }else if(l1.height!=-1){
+    //         if(l1.parent==null)
+    //             l1.parent=root;
+    //         ans.iscousin=l1.iscousin;
+    //         ans.height=l1.height+1;
+    //         ans.parent=l1.parent;
+    //     }else if(r1.height!=-1){
+    //         if(r1.parent==null)
+    //             r1.parent=root;
+    //         ans.parent=r1.parent;
+    //         ans.height=r1.height+1;
+    //         ans.iscousin=r1.iscousin;
+    //     }else {
+    //         ans=l1;
+    //     }
+    //     return ans;
+    // }
+
+    public static Pair findh(BinaryTreeNode<Integer> root,int value,int h,BinaryTreeNode<Integer> parent){
+
+        if(root==null)
+            return null;
+
+        if(root.data==value){
+            Pair p1=new Pair(h,parent);
+            return p1;
         }
 
-        if(root.data==p || root.data==q){
-            cousin o1 = new cousin();
-            o1.iscousin=false;
-            o1.height=level;
-            o1.parent=null;
-            return o1;
-        }
-        cousin l1 = isCousin(root.left,p,q,level+1);
-        cousin r1 = isCousin(root.right,p,q,level+1);
-        cousin ans = new cousin();
-        if(l1.height!=-1 && r1.height!=-1){
-            if(l1.height==r1.height && l1.parent!=r1.parent){
-                ans.iscousin=true;
-                ans.height=l1.height+1;
-                ans.parent=l1.parent;
-            }
-        }else if(l1.height!=-1){
-            if(l1.parent==null)
-                l1.parent=root;
-            ans.iscousin=l1.iscousin;
-            ans.height=l1.height+1;
-            ans.parent=l1.parent;
-        }else if(r1.height!=-1){
-            if(r1.parent==null)
-                r1.parent=root;
-            ans.parent=r1.parent;
-            ans.height=r1.height+1;
-            ans.iscousin=r1.iscousin;
-        }else {
-            ans=l1;
-        }
-        return ans;
+        Pair leftans=findh(root.left,value,h+1,root);
+        if(leftans!=null)
+            return leftans;
+
+        Pair rightans=findh(root.right,value,h+1,root);
+        return rightans;
     }
 }
