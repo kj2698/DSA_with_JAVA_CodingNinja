@@ -43,13 +43,14 @@ public class Solution {
             }
         }
         
-        int v=-1;
-        int c=1;
-        while(c<=k){
-            if(c==k)
-                return pq.remove();
-            c++;
-        }
-        return v;
+        // int v=-1;
+        // int c=1;
+        // while(c<=k){
+        //     if(c==k)
+        //         return pq.remove();
+        //     c++;
+        // }
+        // return v;
+        return pq.remove();
 	}
 }
