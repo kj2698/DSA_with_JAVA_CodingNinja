@@ -33,16 +33,28 @@ public class Solution {
         */
 
         
-        long mod= (long)(Math.pow(10,9)+7);
-        long [] arr=new long[(int)n+1];
-        arr[0]=arr[1]=1;
-        for (int i = 2; i <=n ; i++) {
-            long x=arr[i-1];
-            long y=arr[i-2];
-            long v1=(x*x)%mod;
-            long v2=(2*x*y)%mod;
-            arr[i]=v1+v2;
+        // long mod= (long)(Math.pow(10,9)+7);
+        // long [] arr=new long[(int)n+1];
+        // arr[0]=arr[1]=1;
+        // for (int i = 2; i <=n ; i++) {
+        //     long x=arr[i-1];
+        //     long y=arr[i-2];
+        //     long v1=(x*x)%mod;
+        //     long v2=(2*x*y)%mod;
+        //     arr[i]=v1+v2;
+        // }
+        // return (int) (arr[(int) n]%mod);
+
+        long mod = (long) (Math.pow(10, 9) + 7);
+        int[] arr = new int[n + 1];
+        arr[0] = arr[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            long x = (long)arr[i - 1]*arr[i-1];
+            long y = (long)arr[i - 2]*arr[i-1]*2;
+            int v1 =(int) (x % mod);
+            int v2 =(int) (y % mod);
+            arr[i] =(int) ((v1+v2)%mod);
         }
-        return (int) (arr[(int) n]%mod);
+        return arr[n];
 	}
 }
