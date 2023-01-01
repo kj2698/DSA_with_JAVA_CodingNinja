@@ -46,7 +46,29 @@ public class Solution{
 //         }
         
 //         return helper1(arr,0,sum,s);
-        return helper1(arr,0,sum);
+        // return helper1(arr,0,sum);
+
+        boolean [][] storage = new boolean[n+1][sum+1];
+        for(int i=0;i<=n;i++){
+            storage[i][0]=true;
+        }
+        for(int i=1;i<=sum;i++){
+            storage[n][i]=false;
+        }
+
+        for(int i=n-1;i>=0;i--){
+            for(int j=1;j<=sum;j++){
+                if(arr[i]>j){
+                    // If element at index 'i' > 'j' then simply exclude the element and move to next index.
+                    storage[i][j]=storage[i+1][j];
+                }else{ 
+                    // If element at index 'i' is <= 'j' then either we can pick it or exclude it.
+                    storage[i][j]=storage[i+1][j-arr[i]] || storage[i+1][j];
+                }
+            }
+        }
+
+        return storage[0][sum];
     }
     
     private static boolean helper1(int [] arr,int n,int sum,int [][] s){
