@@ -35,23 +35,39 @@ public class Solution{
 
     public static int getMinimumStrength(int[][] grid) {
         
-        /* Your class should be named Solution
-		 * Don't write main().
-		 * Don't read input, it is passed as function argument.
-		 * Return output and don't print it.
-	 	 * Taking input and printing output is handled automatically.
-        */
         
-        int m=grid.length;
-        int n=grid[0].length;
-        int [][] storage=new int[m][n];
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                storage[i][j]=-1;
+        // int m=grid.length;
+        // int n=grid[0].length;
+        // int [][] storage=new int[m][n];
+        // for(int i=0;i<m;i++){
+        //     for(int j=0;j<n;j++){
+        //         storage[i][j]=-1;
+        //     }
+        // }
+        
+        // return getMinimumStrength(0, 0, grid, storage);
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] storage = new int[m][n];
+        storage[m-1][n-1]=1;
+        for(int i=n-2;i>=0;i--){
+            int v=storage[m-1][i+1]-grid[m-1][i];
+            storage[m-1][i]=(v<1)?1:v;
+        }
+
+        for(int i=m-2;i>=0;i--){
+            int v=storage[i+1][n-1]-grid[i][n-1];
+            storage[i][n-1]= (v < 1) ? 1 : v;
+        }
+
+        for(int i=m-2;i>=0;i--){
+            for(int j=n-2;j>=0;j--){
+                int v=Math.min(storage[i+1][j],storage[i][j+1])-grid[i][j];
+                storage[i][j]= (v < 1) ? 1 : v;
             }
         }
         
-        return getMinimumStrength(0,0,grid,storage);
+        return storage[0][0];
     }
     
     public static int getMinimumStrength(int row,int col,int [][] input,int [][] storage){
